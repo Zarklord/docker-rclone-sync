@@ -10,13 +10,13 @@ fi
 
 rm -f /tmp/sync.pid
 
-if [ -z "$SYNC_SRC" ] || [ -z "$SYNC_DEST" ]
+if [ -z "$SYNC_DEST" ]
 then
-  echo "INFO: No SYNC_SRC and SYNC_DEST found. Starting rclone config"
+  echo "INFO: No SYNC_DEST found. Starting rclone config"
   rclone config $RCLONE_OPTS
-  echo "INFO: Define SYNC_SRC and SYNC_DEST to start sync process."
+  echo "INFO: Define SYNC_DEST to start sync process."
 else
-  # SYNC_SRC and SYNC_DEST setup
+  # SYNC_DEST setup
   # run sync either once or in cron depending on CRON
   if [ -z "$CRON" ]
   then
