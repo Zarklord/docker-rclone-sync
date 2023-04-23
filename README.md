@@ -34,14 +34,13 @@ A first run of the container can help in the creation of the file, but feel free
 
 ```
 $ mkdir config
-$ docker run --rm -it -v $(pwd)/config:/config robostlund/rclone-sync
+$ docker run --rm -it -v $(pwd)/config:/config zarklord/rclone-sync:latest
 ```
 
 ### Perform sync in a daily basis
 
 A few environment variables allow you to customize the behavior of the sync:
 
-* `SYNC_SRC` source location for `rclone sync` command
 * `SYNC_DEST` destination location for `rclone sync` command
 * `CRON` crontab schedule `0 0 * * *` to perform sync every midnight
 * `CRON_ABORT` crontab schedule `0 6 * * *` to abort sync at 6am
@@ -50,8 +49,20 @@ A few environment variables allow you to customize the behavior of the sync:
 * `SYNC_OPTS` additional options for `rclone sync` command. Defaults to `-v`
 * `TZ` set the [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) to use for the cron and log `America/Argentina/Buenos_Aires`
 
-```bash
-$ docker run --rm -it -v $(pwd)/config:/config -v /path/to/source:/source -e SYNC_SRC="/source" -e SYNC_DEST="dest:path" -e TZ="America/Argentina/Buenos_Aires" -e CRON="0 0 * * *" -e CRON_ABORT="0 6 * * *" -e FORCE_SYNC=1 -e CHECK_URL=https://hchk.io/hchk_uuid robinostlund/rclone-sync
+```services:
+  rclone:
+    container_name: rclone
+    image: zarklord/rclone-sync:latest
+    restart: unless-stopped
+    volumes:
+      - /path/to/config/folder:/config
+      - /path/to/sync/folder:/data
+    environment:
+      - SYNC_DEST="destination:folder"
+      - CRON=0 0 * * *
+      - CRON_ABORT=0 6 * * *
+      - FORCE_SYNC=1
+      - TZ=Etc/UTC
 ```
 
 See [rclone sync docs](https://rclone.org/commands/rclone_sync/) for source/dest syntax and additional options.
