@@ -3,8 +3,6 @@ FROM alpine:latest
 MAINTAINER Robin Ostlund <me@robinostlund.name>
 
 ENV INST_RCLONE_VERSION=current
-ENV ARCH=arm64
-ENV SYNC_SRC=
 ENV SYNC_DEST=
 ENV SYNC_OPTS=-v
 ENV RCLONE_OPTS="--config /config/rclone.conf"
