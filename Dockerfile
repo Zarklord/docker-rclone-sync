@@ -1,9 +1,10 @@
 FROM alpine:latest
 
-MAINTAINER Robin Ostlund <me@robinostlund.name>
+MAINTAINER Zarklord
+
+ARG TARGETPLATFORM
 
 ENV INST_RCLONE_VERSION=current
-ENV ARCH=
 ENV SYNC_DEST=
 ENV SYNC_OPTS=-v
 ENV RCLONE_OPTS="--config /config/rclone.conf"
@@ -13,12 +14,13 @@ ENV FORCE_SYNC=
 ENV CHECK_URL=
 ENV TZ=
 
-RUN apk -U add ca-certificates fuse wget dcron tzdata \
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE=amd64; else ARCHITECTURE=arm64; fi \
+    && apk -U add ca-certificates fuse wget dcron tzdata \
     && rm -rf /var/cache/apk/* \
     && cd /tmp \
-    && wget -q http://downloads.rclone.org/rclone-${INST_RCLONE_VERSION}-linux-${ARCH}.zip \
-    && unzip /tmp/rclone-${INST_RCLONE_VERSION}-linux-${ARCH}.zip \
-    && mv /tmp/rclone-*-linux-${ARCH}/rclone /usr/bin \
+    && wget -q http://downloads.rclone.org/rclone-${INST_RCLONE_VERSION}-linux-${ARCHITECTURE}.zip \
+    && unzip /tmp/rclone-${INST_RCLONE_VERSION}-linux-${ARCHITECTURE}.zip \
+    && mv /tmp/rclone-*-linux-${ARCHITECTURE}/rclone /usr/bin \
     && rm -r /tmp/rclone*
 
 COPY entrypoint.sh /
