@@ -42,14 +42,15 @@ else
     touch /tmp/crond.log
     crond -b -l 0 -L /tmp/crond.log
     echo "INFO: crond started"
-    tail -F /tmp/crond.log /tmp/sync.log
     
     if [ -z "$FORCE_SYNC" ]
     then
       echo "INFO: Add FORCE_SYNC=1 to perform a sync upon boot"
     else
-      /sync.sh
+      /sync.sh &
     fi
+    
+    tail -F /tmp/crond.log /tmp/sync.log
   fi
 fi
 
