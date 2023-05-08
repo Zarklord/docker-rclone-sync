@@ -7,7 +7,7 @@ ARG TARGETPLATFORM
 ENV INST_RCLONE_VERSION=current
 ENV SYNC_DEST=
 ENV SYNC_OPTS=-v
-ENV RCLONE_OPTS="--config /config/rclone.conf"
+ENV RCLONE_OPTS="--config /config/rclone.conf --log-file /tmp/sync.log"
 ENV CRON=
 ENV CRON_ABORT=
 ENV FORCE_SYNC=
