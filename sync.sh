@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 echo "INFO: Starting sync.sh pid $$ $(date)"
 
 if [ `lsof | grep $0 | wc -l | tr -d ' '` -gt 1 ]
@@ -14,6 +12,10 @@ echo $$ > /tmp/sync.pid
 if test "$(rclone ls $SYNC_DEST $RCLONE_OPTS)"; then
   # the source directory is not empty
   # it can be synced without clear data loss
+  
+  echo "INFO: Startin rclone dedupe --dedupe-mode newest $SYNC_DEST $RCLONE_OPTS"
+  rclone dedupe --dedupe-mode newest $SYNC_DEST $RCLONE_OPTS
+  
   echo "INFO: Starting rclone sync /data $SYNC_DEST $RCLONE_OPTS $SYNC_OPTS"
   rclone sync /data $SYNC_DEST $RCLONE_OPTS $SYNC_OPTS
 
