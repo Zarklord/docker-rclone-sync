@@ -9,7 +9,7 @@ else
 
 echo $$ > /tmp/sync.pid
 
-if test "$(rclone ls $SYNC_DEST $RCLONE_OPTS)"; then
+if test "$(ls /data)"; then
   # the source directory is not empty
   # it can be synced without clear data loss
   
