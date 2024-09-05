@@ -4,7 +4,7 @@ set -e
 
 if [ ! -z "$TZ" ]
 then
-  ln -s /usr/share/zoneinfo/$TZ /etc/localtime
+  cp /usr/share/zoneinfo/$TZ /etc/localtime
   echo $TZ > /etc/timezone
 fi
 
