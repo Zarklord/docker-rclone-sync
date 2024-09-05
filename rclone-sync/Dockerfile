@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add rclone --no-cache
+RUN apk add rclone tzdata dcron --no-cache
 
 COPY --chmod=0755 ./entrypoint.sh /entrypoint.sh
 COPY --chmod=0755 ./sync.sh /sync.sh
